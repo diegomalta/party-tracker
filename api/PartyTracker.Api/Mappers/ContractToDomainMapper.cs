@@ -20,7 +20,7 @@ namespace PartyTracker.Api.Mappers
 			return new EventResponse
 			{
 				Id = eventCreated.Id
-			}
+			};
 		}
 	}
 }

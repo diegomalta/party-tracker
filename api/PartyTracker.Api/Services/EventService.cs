@@ -1,17 +1,24 @@
 ﻿using System;
 using PartyTracker.Api.Domain;
+using PartyTracker.Api.Mappers;
+using PartyTracker.Api.Repositories;
 
 namespace PartyTracker.Api.Services
 {
 	public class EventService : IEventService
 	{
-		public EventService()
+		private readonly IEventRepository _eventRepository;
+
+		public EventService(IEventRepository eventRepository)
 		{
+			_eventRepository = eventRepository;
 		}
 
-        public Task<Event> CreateAsync(Event eventReq)
+        public async Task<Event> CreateAsync(Event eventReq)
         {
-            throw new NotImplementedException();
+			var eventDto = eventReq.ToEventDto();
+			await _eventRepository.CreateAsync(eventDto);
+			return eventReq;
         }
     }
 }
