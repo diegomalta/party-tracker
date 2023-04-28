@@ -2,6 +2,7 @@
 using PartyTracker.Api.Domain;
 using PartyTracker.Api.Contracts.Request;
 using PartyTracker.Api.Contracts.Responses;
+using PartyTracker.Api.Domain.Common;
 
 namespace PartyTracker.Api.Mappers
 {
@@ -15,11 +16,13 @@ namespace PartyTracker.Api.Mappers
 			};
 		}
 
-		public static EventResponse ToEventResponse(this Event eventCreated)
+		public static Guest ContractToGuest(this GuestRequest guestRequest)
 		{
-			return new EventResponse
+			return new Guest
 			{
-				Id = eventCreated.Id
+				EventId = Domain.Common.EventId.From(guestRequest.EventId),
+				Name = FullName.From(guestRequest.Name),
+				PhoneNumber = PhoneNumber.From(guestRequest.PhoneNumber)
 			};
 		}
 	}

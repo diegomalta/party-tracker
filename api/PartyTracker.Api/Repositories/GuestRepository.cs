@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
@@ -11,7 +10,7 @@ using System.Text.Json.Serialization;
 
 namespace PartyTracker.Api.Repositories
 {
-	public class EventRepository : IEventRepository
+	public class GuestRepository : IGuestRepository
 	{
         private readonly IAmazonDynamoDB _dynamoDb;
         private readonly IOptions<DatabaseSettings> _databaseSettings;
@@ -20,17 +19,17 @@ namespace PartyTracker.Api.Repositories
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
 
-        public EventRepository(IAmazonDynamoDB dynamoDb,
+        public GuestRepository(IAmazonDynamoDB dynamoDb,
             IOptions<DatabaseSettings> databaseSettings)
 		{
             _dynamoDb = dynamoDb;
             _databaseSettings = databaseSettings;
         }
 
-        public async Task<EventDto> CreateAsync(EventDto evtDto)
+        public async Task<GuestDto> CreateAsync(GuestDto guest)
         {
-            var eventAsJson = JsonSerializer.Serialize(evtDto, options);
-            var itemAsDocument = Document.FromJson(eventAsJson);
+            var guestAsJson = JsonSerializer.Serialize(guest, options);
+            var itemAsDocument = Document.FromJson(guestAsJson);
             var itemAsAttributes = itemAsDocument.ToAttributeMap();
 
             var createItemRequest = new PutItemRequest
@@ -40,8 +39,10 @@ namespace PartyTracker.Api.Repositories
             };
 
             await _dynamoDb.PutItemAsync(createItemRequest);
-            return evtDto;
+            return guest;
         }
+
+
     }
 }
 

@@ -1,0 +1,30 @@
+﻿using System;
+using PartyTracker.Api.Domain;
+using PartyTracker.Api.Mappers;
+using PartyTracker.Api.Repositories;
+
+namespace PartyTracker.Api.Services
+{
+	public class GuestService : IGuestService
+	{
+        private readonly IGuestRepository _guestRepository;
+
+		public GuestService(IGuestRepository guestRepository)
+		{
+            _guestRepository = guestRepository;
+		}
+
+        public async Task<Guest> CreateAsync(Guest guest)
+        {
+            var guestDto = guest.ToGuestDto();
+            await _guestRepository.CreateAsync(guestDto);
+            return guest;
+        }
+
+        public Task<Guest?> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+

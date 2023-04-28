@@ -1,4 +1,6 @@
 using Amazon.DynamoDBv2;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using PartyTracker.Api.Repositories;
 using PartyTracker.Api.Services;
 using PartyTracker.Api.Settings;
@@ -13,16 +15,20 @@ builder.Services.AddControllers();
 // package will act as the webserver translating request and responses between the Lambda event source and ASP.NET Core.
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 builder.Services.Configure<DatabaseSettings>(config.GetSection(DatabaseSettings.KeyName));
 builder.Services.AddAWSService<IAmazonDynamoDB>(config.GetAWSOptions());
 
 builder.Services.AddSingleton<IEventRepository, EventRepository>();
+builder.Services.AddSingleton<IGuestRepository, GuestRepository>();
 
 builder.Services.AddSingleton<IEventService, EventService>();
-
+builder.Services.AddSingleton<IGuestService, GuestService>();
 
 var app = builder.Build();
-
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
