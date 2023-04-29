@@ -18,7 +18,11 @@ namespace PartyTracker.Api.Mappers
         {
             return new GuestResponse
             {
-                Id = guestCreated.Id
+                Id = guestCreated.Id,
+                EventId = guestCreated.EventId.Value,
+                Name = guestCreated.Name.Value,
+                PhoneNumber = guestCreated.PhoneNumber?.Value
+               
             };
         }
     }

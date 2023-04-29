@@ -42,7 +42,29 @@ namespace PartyTracker.Api.Repositories
             return guest;
         }
 
+        private string GeneratePk(Guid productId) => $"GUEST#{productId.ToString()}";
 
+        public async Task<GuestDto?> GetByIdAsync(Guid id)
+        {
+            var request = new GetItemRequest
+            {
+                TableName = _databaseSettings.Value.TableName,
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    { "PK", new AttributeValue { S = GeneratePk(id) } },
+                    { "SK", new AttributeValue { S = GeneratePk(id) } }
+                }
+            };
+
+            var response = await _dynamoDb.GetItemAsync(request);
+            if (response.Item.Count == 0)
+            {
+                return null;
+            }
+
+            var itemAsDocument = Document.FromAttributeMap(response.Item);
+            return JsonSerializer.Deserialize<GuestDto>(itemAsDocument.ToJson());
+        }
     }
 }
 

@@ -21,9 +21,10 @@ namespace PartyTracker.Api.Services
             return guest;
         }
 
-        public Task<Guest?> GetByIdAsync(Guid id)
+        public async Task<Guest?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var guestDto = await _guestRepository.GetByIdAsync(id);
+            return guestDto?.ToGuest();
         }
     }
 }

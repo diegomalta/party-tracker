@@ -25,6 +25,20 @@ namespace PartyTracker.Api.Controllers
 			return Ok(response.ToGuestResponse());
 		}
 
-	}
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Get([FromRoute] Guid id)
+        {
+            Console.WriteLine(id);
+            var guest = await _guestService.GetByIdAsync(id);
+
+            if (guest is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(guest.ToGuestResponse());
+        }
+
+    }
 }
 
