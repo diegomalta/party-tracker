@@ -65,6 +65,22 @@ namespace PartyTracker.Api.Repositories
             var itemAsDocument = Document.FromAttributeMap(response.Item);
             return JsonSerializer.Deserialize<GuestDto>(itemAsDocument.ToJson());
         }
+
+        public async Task<GuestDto> UpdateAsync(GuestDto guest)
+        {
+            var guestAsJson = JsonSerializer.Serialize(guest, options);
+            var itemAsDocument = Document.FromJson(guestAsJson);
+            var itemAsAttributes = itemAsDocument.ToAttributeMap();
+
+            var createItemRequest = new PutItemRequest
+            {
+                TableName = _databaseSettings.Value.TableName,
+                Item = itemAsAttributes
+            };
+
+            await _dynamoDb.PutItemAsync(createItemRequest);
+            return guest;
+        }
     }
 }
 

@@ -28,7 +28,6 @@ namespace PartyTracker.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            Console.WriteLine(id);
             var guest = await _guestService.GetByIdAsync(id);
 
             if (guest is null)
@@ -37,6 +36,25 @@ namespace PartyTracker.Api.Controllers
             }
 
             return Ok(guest.ToGuestResponse());
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] GuestRequest guestRequest)
+        {
+            var guest = await _guestService.GetByIdAsync(id);
+
+            if (guest is null)
+            {
+                return NotFound();
+            }
+
+            var guestToUpdate = guestRequest.ContractToGuestUpdate();
+
+            //Update only required propierties
+            guest.PhoneNumber = guestToUpdate.PhoneNumber;
+
+            var updateResponse = await _guestService.Update(guest);
+            return Ok(updateResponse.ToGuestResponse());
         }
 
     }

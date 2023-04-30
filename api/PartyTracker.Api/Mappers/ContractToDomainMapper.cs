@@ -25,6 +25,14 @@ namespace PartyTracker.Api.Mappers
 				PhoneNumber = PhoneNumber.From(guestRequest.PhoneNumber)
 			};
 		}
+
+		public static Guest ContractToGuestUpdate(this GuestRequest guestRequest)
+		{
+			return new Guest
+			{
+				PhoneNumber = PhoneNumber.From(guestRequest.PhoneNumber)
+			};
+		}
 	}
 }
 

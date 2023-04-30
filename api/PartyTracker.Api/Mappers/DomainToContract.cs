@@ -22,7 +22,6 @@ namespace PartyTracker.Api.Mappers
                 EventId = guestCreated.EventId.Value,
                 Name = guestCreated.Name.Value,
                 PhoneNumber = guestCreated.PhoneNumber?.Value
-               
             };
         }
     }

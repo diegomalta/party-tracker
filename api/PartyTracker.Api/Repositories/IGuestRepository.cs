@@ -7,6 +7,7 @@ namespace PartyTracker.Api.Repositories
 	{
         Task<GuestDto> CreateAsync(GuestDto guest);
         Task<GuestDto?> GetByIdAsync(Guid id);
+        Task<GuestDto> UpdateAsync(GuestDto guest);
     }
 }
 
