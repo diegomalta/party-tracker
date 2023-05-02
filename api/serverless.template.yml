@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Party tracker lambda with Api gateway quering a Dynamo DB.
+Parameters:
+  TableName:
+    Type: String
+    Default: party-tracker
+Resources:
+  PartyTrackerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "party-tracker-api"
+      Runtime: "dotnet6"
+      Handler: "PartyTracker.Api"
+      CodeUri: ""
+      MemorySize: 256
+      Timeout: 30
+      Policies:
+        - Statement:
+          - Sid: DynamoAccessPolicy
+            Effect: Allow
+            Action:
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:GetItem
+            Resource:
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/party-tracker"
+      Events:
+        ProxyResource:
+          Type: "Api"
+          Properties:
+            Path: "/{proxy+}"
+            Method: "ANY"
+        RootResource:
+          Type: "Api"
+          Properties:
+            Path: "/"
+            Method: "ANY"
