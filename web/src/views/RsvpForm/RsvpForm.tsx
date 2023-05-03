@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import WelcomeMessage from "../../components/WelcomeMessage/WelcomeMessage"
+import PartyTrackerClient from "../../services/api/PartyTracker";
 
 
 const RsvpForm = () => {
-    return  <>
-        <WelcomeMessage />
+
+    const initialRan = useRef<boolean>(false);
+    const { guestId } = useParams();
+
+    const [ guestName, setGuestName ] = useState<string>("");
+
+    useEffect(() => {
+        if (!initialRan.current) {
+            const getGuestInfo = async (id: string) => {
+                var response = await PartyTrackerClient.getGuestInfo(id);
+                setGuestName(response.name)
+            }
+    
+            if (guestId)
+                getGuestInfo(guestId);
+
+            return () => {initialRan.current = true}
+        }
+        
+    }, [guestId]);
+
+    return (guestName === "") ? <>Getting your guest information ....</> :
+    <>
+        <WelcomeMessage guestName={guestName}/>
         <div >
             <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
                 Price
