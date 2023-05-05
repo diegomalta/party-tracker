@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import WelcomeMessage from "../../components/WelcomeMessage/WelcomeMessage"
 import PartyTrackerClient from "../../services/api/PartyTracker";
+import Countdown from "../../components/Countdown/Countdown";
 
 
 const RsvpForm = () => {
@@ -9,7 +10,7 @@ const RsvpForm = () => {
     const initialRan = useRef<boolean>(false);
     const { guestId } = useParams();
 
-    const [ guestName, setGuestName ] = useState<string>("");
+    const [guestName, setGuestName] = useState<string>("");
 
     useEffect(() => {
         if (!initialRan.current) {
@@ -17,50 +18,33 @@ const RsvpForm = () => {
                 var response = await PartyTrackerClient.getGuestInfo(id);
                 setGuestName(response.name)
             }
-    
+
             if (guestId)
                 getGuestInfo(guestId);
 
-            return () => {initialRan.current = true}
+            return () => { initialRan.current = true }
         }
-        
+
     }, [guestId]);
 
     return (guestName === "") ? <>Getting your guest information ....</> :
-    <>
-        <WelcomeMessage guestName={guestName}/>
-        <div >
-            <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
-                Price
-            </label>
-            <div className="relative mt-2 rounded-md shadow-sm">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <span className="text-gray-500 sm:text-sm">$</span>
-                </div>
-                <input
-                    type="text"
-                    name="price"
-                    id="price"
-                    className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="0.00"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center">
-                    <label htmlFor="currency" className="sr-only">
-                        Currency
-                    </label>
-                    <select
-                        id="currency"
-                        name="currency"
-                        className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                    >
-                        <option>USD</option>
-                        <option>CAD</option>
-                        <option>EUR</option>
-                    </select>
-                </div>
+        <>
+            <WelcomeMessage guestName={guestName} />
+            <Countdown TargetDate={new Date("2023-06-03T18:12:00.000-05:00")}/>
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text">Your Phone</span>
+                </label>
+                <label className="input-group">
+                    <span>Phone</span>
+                    <input type="text" placeholder="" className="input input-bordered" />
+                </label>
             </div>
-        </div >
-    </>
+            <div>
+                <button className="btn">Hello daisyUI</button>
+            </div>
+
+        </>
 }
 
 export default RsvpForm;
