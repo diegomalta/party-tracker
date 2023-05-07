@@ -44,7 +44,7 @@ const Countdown = ({ TargetDate, FromTo }: CountdownProps) => {
     }, [TargetDate]);
 
     return (
-            <div className="card w-94 bg-base-100 shadow-xl">
+            <div className="card card-compact w-94 bg-base-100 shadow-xl mt-3">
                 <div className="card-body">
                     <div className="grid justify-center">
                         <div>
