@@ -5,21 +5,18 @@ import { CalendarIcon } from "../Icons/CalendarIcon";
 
 interface CountdownProps {
     TargetDate: Date;
+    FromTo: string;
 }
 
 // Date format
 const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
     day: '2-digit',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
 };
 
 
-const Countdown = ({ TargetDate }: CountdownProps) => {
+const Countdown = ({ TargetDate, FromTo }: CountdownProps) => {
     const formatter: Intl.DateTimeFormat = new Intl.DateTimeFormat('en-US', options);
 
     const [days, setDays] = useState(0);
@@ -44,20 +41,15 @@ const Countdown = ({ TargetDate }: CountdownProps) => {
         return () => {
             clearInterval(intervalId);
         };
-    }, []);
+    }, [TargetDate]);
 
     return (
-
-
-        <>
-
-
             <div className="card w-94 bg-base-100 shadow-xl">
                 <div className="card-body">
                     <div className="grid justify-center">
                         <div>
                             <CalendarIcon />
-                            <span className="pl-2 text-xl font-bold">{formatter.format(TargetDate)}</span>
+                            <span className="pl-2 text-lg font-bold">{formatter.format(TargetDate)} From {FromTo}</span>
                         </div>
                     </div>
 
@@ -90,9 +82,6 @@ const Countdown = ({ TargetDate }: CountdownProps) => {
 
                 </div>
             </div>
-
-
-        </>
     );
 }
 
