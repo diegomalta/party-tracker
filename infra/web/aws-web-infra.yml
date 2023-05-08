@@ -1,0 +1,99 @@
+# aws cloudformation deploy --template-file aws-web-infra.yml --stack-name web-content --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
+AWSTemplateFormatVersion: 2010-09-09
+Description: Infra for this party tracker
+Resources:
+  WebContentBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub '${AWS::AccountId}-party-tracker-web-content'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: "AES256"
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ["*"]
+            AllowedMethods: ["GET"]
+            AllowedOrigins: ["http://localhost:*"]
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: false
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: 's3:GetObject'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref WebContentBucket
+                - /*
+            Principal: 
+              CanonicalUser: !GetAtt TheAccessIdentity.S3CanonicalUserId
+      Bucket: !Ref WebContentBucket
+  TheAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: access-identity-cloudfront
+  TheDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        HttpVersion: "http2"
+        Enabled: true
+        DefaultRootObject: "index.html"
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: "/index.html"
+        DefaultCacheBehavior:
+          Compress: true
+          ForwardedValues:
+            Headers:
+              [
+                "Access-Control-Request-Headers",
+                "Access-Control-Request-Method",
+                "Origin",
+              ]
+            QueryString: false
+          TargetOriginId: !Sub "S3-${AWS::AccountId}-party-tracker-web-content"
+          ViewerProtocolPolicy: "https-only"
+          AllowedMethods: ["GET", "HEAD", "OPTIONS"]
+        Origins:
+          - DomainName: !GetAtt [WebContentBucket, DomainName]
+            Id: !Sub "S3-${AWS::AccountId}-party-tracker-web-content"
+            S3OriginConfig:
+              OriginAccessIdentity:
+                  !Join [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      !Ref TheAccessIdentity,
+                    ]
+                  ]
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt
+      - WebContentBucket
+      - WebsiteURL
+    Description: website url
+  WebContentS3BucketSecureUrl:
+    Value: !Join
+      - ""
+      - - "https://"
+        - !GetAtt
+          - WebContentBucket
+          - DomainName
+    Description: web content
+  DomainName:
+    Value: !GetAtt TheDistribution.DomainName
