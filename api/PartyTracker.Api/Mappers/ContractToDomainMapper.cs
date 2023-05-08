@@ -3,6 +3,7 @@ using PartyTracker.Api.Domain;
 using PartyTracker.Api.Contracts.Request;
 using PartyTracker.Api.Contracts.Responses;
 using PartyTracker.Api.Domain.Common;
+using Amazon.DynamoDBv2.Model;
 
 namespace PartyTracker.Api.Mappers
 {
@@ -30,8 +31,11 @@ namespace PartyTracker.Api.Mappers
 		{
 			return new Guest
 			{
-				PhoneNumber = PhoneNumber.From(guestRequest.PhoneNumber)
-			};
+				PhoneNumber = PhoneNumber.From(guestRequest.PhoneNumber),
+                Rsvp = Rsvp.From(guestRequest.Rsvp),
+                Parents = Parents.From(guestRequest.Parents),
+                Message = guestRequest.Message
+            };
 		}
 	}
 }

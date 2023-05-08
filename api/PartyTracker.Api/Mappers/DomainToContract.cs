@@ -21,7 +21,10 @@ namespace PartyTracker.Api.Mappers
                 Id = guestCreated.Id,
                 EventId = guestCreated.EventId.Value,
                 Name = guestCreated.Name.Value,
-                PhoneNumber = guestCreated.PhoneNumber?.Value
+                PhoneNumber = guestCreated.PhoneNumber?.Value,
+                Rsvp = guestCreated.Rsvp?.Value,
+                Parents = guestCreated.Parents?.Value,
+                Message = guestCreated.Message
             };
         }
     }

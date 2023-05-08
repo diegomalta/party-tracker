@@ -6,19 +6,22 @@ using ValueOf;
 
 namespace PartyTracker.Api.Domain.Common
 {
-    public class FullName : ValueOf<string, FullName>
+	public class Rsvp : ValueOf<string, Rsvp>
     {
-        private static readonly Regex FullNameRegex =
+        private static readonly Regex RsvpRegex =
             new("^[a-z ,.'-]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         protected override void Validate()
         {
-            if (!FullNameRegex.IsMatch(Value))
+            if (Value is null)
+                return;
+
+            if (!RsvpRegex.IsMatch(Value))
             {
-                var message = $"{Value} is not a valid name";
+                var message = $"{Value} is not a valid";
                 throw new ValidationException(message, new[]
                 {
-                    new ValidationFailure(nameof(FullName), message)
+                    new ValidationFailure(nameof(Rsvp), message)
                 });
             }
         }

@@ -22,6 +22,15 @@ namespace PartyTracker.Api.Contracts.Data
 
         [JsonPropertyName("phoneNumber")]
         public string? PhoneNumber { get; set; }
+
+        [JsonPropertyName("rsvp")]
+        public string? Rsvp { get; set; }
+
+        [JsonPropertyName("parents")]
+        public string? Parents { get; set; }
+
+        [JsonPropertyName("message")]
+        public string? Message { get; set; }
     }
 }
 

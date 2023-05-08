@@ -14,7 +14,10 @@ namespace PartyTracker.Api.Mappers
                 Id = Guid.Parse(guest.Id),
                 EventId = Domain.Common.EventId.From(Guid.Parse(guest.EventId)),
                 Name = FullName.From(guest.Name),
-                PhoneNumber = PhoneNumber.From(guest.PhoneNumber)
+                PhoneNumber = PhoneNumber.From(guest.PhoneNumber),
+                Rsvp = Rsvp.From(guest.Rsvp),
+                Parents = Parents.From(guest.Parents),
+                Message = guest.Message
             };
         }
     }

@@ -52,6 +52,9 @@ namespace PartyTracker.Api.Controllers
 
             //Update only required propierties
             guest.PhoneNumber = guestToUpdate.PhoneNumber;
+            guest.Rsvp = guestToUpdate.Rsvp;
+            guest.Parents = guestToUpdate.Parents;
+            guest.Message = guestToUpdate.Message;
 
             var updateResponse = await _guestService.Update(guest);
             return Ok(updateResponse.ToGuestResponse());

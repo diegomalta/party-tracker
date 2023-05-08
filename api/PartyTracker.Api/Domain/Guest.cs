@@ -9,6 +9,9 @@ namespace PartyTracker.Api.Domain
         public Common.EventId EventId { get; set; } = default!;
         public FullName Name { get; set; } = default!;
         public PhoneNumber? PhoneNumber { get; set; } = default;
+        public Rsvp? Rsvp { get; set; } = default;
+        public Parents? Parents { get; set; } = default;
+        public string? Message { get; set; } = default;
     }
 }
 
