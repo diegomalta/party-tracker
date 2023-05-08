@@ -1,8 +1,8 @@
 import { BaseClient } from './BaseClient';
 
 const PartyTrackerClient = {
-    getGuestInfo: async (id: string): Promise<any> => {
-        return (await BaseClient.get<any>(`guest/${id}`));
+    getGuestInfo: async (id: string): Promise<IGuestInfo> => {
+        return (await BaseClient.get<IGuestInfo>(`guest/${id}`));
     }   
 }
 

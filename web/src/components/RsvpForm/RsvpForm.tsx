@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react"
 
 interface RsvpFormProps {
-  guestId: string | undefined
+  guestId: string | undefined,
+  phoneNumber: string | undefined,
+  rsvp: string | undefined,
+  parents: string | undefined
   contactUs: string
 }
 
@@ -10,10 +13,10 @@ const formIds = {
   phoneNumber: "phoneNumber"
 }
 
-const RsvpForm = ({ guestId, contactUs }: RsvpFormProps) => {
+const RsvpForm = ({ guestId, phoneNumber: phoneNumberProp, rsvp: rsvpProp, parents: parentsProp, contactUs }: RsvpFormProps) => {
 
   const [rsvp, setRsvp] = useState<string | undefined>(undefined);
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>(phoneNumberProp ?? "");
   const [message, setMessage] = useState<string>("");
   const [parentsWelcome, setParentsWelcome] = useState<string | undefined>(undefined);
 
@@ -25,7 +28,7 @@ const RsvpForm = ({ guestId, contactUs }: RsvpFormProps) => {
       newError.delete(formIds.rsvpSelection);
       setErrors(newError);
     }
-    
+
     if (rsvp?.includes("Declines"))
       setParentsWelcome(undefined);
 
@@ -43,12 +46,12 @@ const RsvpForm = ({ guestId, contactUs }: RsvpFormProps) => {
     if (errors.has(formIds.phoneNumber))
       deleteError();
   },
-  [phoneNumber]);
+    [phoneNumber]);
 
   const areThereAnyErrors = (): boolean => {
     const validateRsvp = (value: string | undefined, error: Map<string, string>) => {
       if (!value)
-        error.set(formIds.rsvpSelection, "RSVP is required")
+        error.set(formIds.rsvpSelection, "RSVP selection is required")
     }
 
     const validatePhoneNumber = (value: string, error: Map<string, string>) => {
@@ -92,6 +95,13 @@ const RsvpForm = ({ guestId, contactUs }: RsvpFormProps) => {
     return true;
   }
 
+  const errroMessage = (formId: string): string => {
+    if (errors.has(formId))
+      return errors.get(formId) ?? "";
+
+    return "";
+  }
+
   const handleSubmit = () => {
     if (!areThereAnyErrors()) {
       console.log(JSON.stringify(errors));
@@ -119,8 +129,10 @@ const RsvpForm = ({ guestId, contactUs }: RsvpFormProps) => {
         <div className="form-control  w-full max-w-xs">
           <label className="input-group">
             <span>Phone #</span>
-            <input type="tel" placeholder="" onChange={handleNumberChange} value={phoneNumber} className={`input input-bordered ${isValid(formIds.phoneNumber) || 'input-error'}`} />
-
+            <input type="tel" placeholder="Your Phone Number" onChange={handleNumberChange} value={phoneNumber} className={`input input-bordered ${isValid(formIds.phoneNumber) || 'input-error'}`} />
+          </label>
+          <label className="label">
+            <span className="label-text-alt text-red-500">{errroMessage(formIds.phoneNumber)}</span>
           </label>
         </div>
 
@@ -133,6 +145,9 @@ const RsvpForm = ({ guestId, contactUs }: RsvpFormProps) => {
             <option>Accepts with Pleasure</option>
             <option>Declines with Regrets</option>
           </select>
+          <label className="label">
+            <span className="label-text-alt text-red-500">{errroMessage(formIds.rsvpSelection)}</span>
+          </label>
         </div>
 
         {parentsAreWelcome}

@@ -17,13 +17,13 @@ const GuestEventView = () => {
     const initialRan = useRef<boolean>(false);
     const { guestId } = useParams();
 
-    const [guestName, setGuestName] = useState<string>("");
+    const [guestInfo, setGuestInfo] = useState<IGuestInfo | undefined>(undefined);
 
     useEffect(() => {
         if (!initialRan.current) {
             const getGuestInfo = async (id: string) => {
                 var response = await PartyTrackerClient.getGuestInfo(id);
-                setGuestName(response.name)
+                setGuestInfo(response);
             }
 
             if (guestId)
@@ -34,14 +34,14 @@ const GuestEventView = () => {
 
     }, [guestId]);
 
-    return (guestName === "") ? <div className="grid place-content-center h-screen"><progress className="progress w-56"></progress>
+    return (guestInfo === undefined) ? <div className="grid place-content-center h-screen"><progress className="progress w-56"></progress>
         <p>Getting guest information</p> </div> :
         <>
-            <WelcomeMessage guestName={guestName} />
+            <WelcomeMessage guestName={guestInfo.name} />
             <Countdown TargetDate={new Date("06/03/2023 12:00:00 GMT-5")} FromTo="12-2 PM" />
             <Address Address={Addrs} Map={AddressMap} />
             <div className="divider"><ArrowDownIcon /> Please RSVP <ArrowDownIcon /></div> 
-            <RsvpForm guestId={guestId} contactUs={ContactUs}/>
+            <RsvpForm guestId={guestId} phoneNumber={guestInfo.phoneNumber} rsvp={guestInfo.rsvp} parents={guestInfo.parents} contactUs={ContactUs}/>
             <EventInformation />
         </>
 }
