@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import PartyTrackerClient from "../../services/api/PartyTracker";
 
 interface RsvpFormProps {
-  guestId: string | undefined,
+  guestId: string,
   phoneNumber: string | undefined,
   rsvp: string | undefined,
   parents: string | undefined
@@ -15,12 +18,14 @@ const formIds = {
 
 const RsvpForm = ({ guestId, phoneNumber: phoneNumberProp, rsvp: rsvpProp, parents: parentsProp, contactUs }: RsvpFormProps) => {
 
-  const [rsvp, setRsvp] = useState<string | undefined>(undefined);
+  const [rsvp, setRsvp] = useState<string | undefined>(rsvpProp);
   const [phoneNumber, setPhoneNumber] = useState<string>(phoneNumberProp ?? "");
   const [message, setMessage] = useState<string>("");
-  const [parentsWelcome, setParentsWelcome] = useState<string | undefined>(undefined);
+  const [parentsWelcome, setParentsWelcome] = useState<string | undefined>(parentsProp);
 
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorAlert, setErrorAlert] = useState<boolean>(false);
 
   useEffect(() => {
     const deleteError = () => {
@@ -102,9 +107,35 @@ const RsvpForm = ({ guestId, phoneNumber: phoneNumberProp, rsvp: rsvpProp, paren
     return "";
   }
 
-  const handleSubmit = () => {
+  const errorBanner = <div className="alert alert-error shadow-lg">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <span>Error! Please contact us or try again.</span>
+    </div>
+  </div>
+
+  const handleSubmit = async () => {
     if (!areThereAnyErrors()) {
-      console.log(JSON.stringify(errors));
+      setErrorAlert(false);
+      try {
+        setIsLoading(true);
+        const request: IGuestInfo = {
+          id: guestId,
+          name: "",
+          phoneNumber: phoneNumber,
+          rsvp: rsvp,
+          parents: parentsWelcome,
+          message: message
+        }
+
+        const response = await PartyTrackerClient.updateGuestInfo(request);
+        toast.success("Thanks for your response!" ,{ autoClose: 3000, bodyClassName: "alert-success", position: "bottom-center", theme: "colored" });
+      } catch (e) {
+        console.log(e);
+        setErrorAlert(true);
+      } finally {
+        setIsLoading(false);
+      }
     }
   }
 
@@ -159,11 +190,17 @@ const RsvpForm = ({ guestId, phoneNumber: phoneNumberProp, rsvp: rsvpProp, paren
           <textarea className="textarea textarea-bordered h-24" onChange={handleMessageChange} value={message} placeholder="Type here"></textarea>
         </div>
 
-        <button className="btn w-full max-w-xs mt-2" onClick={handleSubmit}>Submit</button>
+        <button className={`btn w-full max-w-xs mt-2 ${!isLoading || 'loading'}`} onClick={handleSubmit}>{isLoading || 'Submit'}</button>
+
+        {errorAlert ? errorBanner : <></>}
+
 
         <p className="italic">If any problem, contact us: {contactUs}</p>
 
+
+
       </div>
+      <ToastContainer />
     </div>
   )
 };

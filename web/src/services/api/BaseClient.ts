@@ -11,4 +11,9 @@ export class BaseClient {
         const response: AxiosResponse<T> = await BaseClient.client.get<T>(url);
         return response.data;
     }
+
+    public static put = async <T> (url: string, data: any): Promise<T> => {
+        const response: AxiosResponse<T> = await BaseClient.client.put<T>(url, data);
+        return response.data;
+    }
 }

@@ -41,7 +41,7 @@ const GuestEventView = () => {
             <Countdown TargetDate={new Date("06/03/2023 12:00:00 GMT-5")} FromTo="12-2 PM" />
             <Address Address={Addrs} Map={AddressMap} />
             <div className="divider"><ArrowDownIcon /> Please RSVP <ArrowDownIcon /></div> 
-            <RsvpForm guestId={guestId} phoneNumber={guestInfo.phoneNumber} rsvp={guestInfo.rsvp} parents={guestInfo.parents} contactUs={ContactUs}/>
+            <RsvpForm guestId={guestId ?? ""} phoneNumber={guestInfo.phoneNumber} rsvp={guestInfo.rsvp} parents={guestInfo.parents} contactUs={ContactUs}/>
             <EventInformation />
         </>
 }
