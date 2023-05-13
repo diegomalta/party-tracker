@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        gloria: ['Sigmar', 'sans-serif']
+        sigmar: ['Sigmar', 'sans-serif']
       },
     },
   },

@@ -5,10 +5,10 @@ interface WelcomeMessageProps {
 }
 
 const WelcomeMessage = ({ guestName }: WelcomeMessageProps) => {
-    return (<div className="text-center font-gloria pt-6 pb-3">
-        <p className="text-2xl">{guestName}, You're invited!</p>
+    return (<div className="text-center font-sigmar pt-6 pb-3">
+        <p className="text-2xl tracking-wider">{guestName}, You're invited!</p>
         <p className="text-7xl my-4 tracking-widest text-neutral-focus">Lina </p>
-        <p className="text-2xl">8<sup>th</sup> Birthday Party!</p>
+        <p className="text-2xl tracking-wider">8<sup>th</sup> Birthday Party!</p>
     </div>)
 }
 
