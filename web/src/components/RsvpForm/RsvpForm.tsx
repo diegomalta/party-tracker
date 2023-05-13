@@ -155,7 +155,7 @@ const RsvpForm = ({ guestId, phoneNumber: phoneNumberProp, rsvp: rsvpProp, paren
   return (
     <div className="card card-compact w-94 bg-base-100 shadow-xl mt-3">
       <div className="card-body items-center text-center">
-        <h2 className="card-title">RSVP</h2>
+        <h2 className="card-title font-extrabold">RSVP</h2>
 
         <div className="form-control  w-full max-w-xs">
           <label className="input-group">
