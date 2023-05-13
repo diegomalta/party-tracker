@@ -3,7 +3,6 @@ import React from "react"
 const EventInformation = () => {
   return <div className="card card-compact w-94 bg-base-100 shadow-xl mt-3">
     <div className="card-body">
-      <h2 className="card-title justify-center">More Info</h2>
       <div className="prose">
         <h3>Menu:</h3>
         <ul>

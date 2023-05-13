@@ -1,6 +1,8 @@
 //@ts-nocheck
 import React, { useState, useEffect } from "react";
 import { CalendarIcon } from "../Icons/CalendarIcon";
+import { url } from "inspector";
+import partycat from "../../images/partycat.png"
 
 
 interface CountdownProps {
@@ -45,6 +47,7 @@ const Countdown = ({ TargetDate, FromTo }: CountdownProps) => {
 
     return (
             <div className="card card-compact w-94 bg-base-100 shadow-xl mt-3">
+                <figure><img src={partycat} alt="PartyCat" width={70}/></figure>
                 <div className="card-body">
                     <div className="grid justify-center">
                         <div>

@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        gloria: ['Sigmar', 'sans-serif']
+      },
+    },
   },
   plugins: [
     require("@tailwindcss/typography"), require('daisyui'),

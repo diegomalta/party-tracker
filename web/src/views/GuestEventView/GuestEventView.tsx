@@ -35,12 +35,12 @@ const GuestEventView = () => {
     }, [guestId]);
 
     return (guestInfo === undefined) ? <div className="grid place-content-center h-screen"><progress className="progress w-56"></progress>
-        <p>Getting guest information</p> </div> :
+        <p className="font-bold">Getting guest information</p> </div> :
         <>
             <WelcomeMessage guestName={guestInfo.name} />
-            <Countdown TargetDate={new Date("06/03/2023 12:00:00 GMT-5")} FromTo="12-2 PM" />
+            <Countdown TargetDate={new Date("06/04/2023 12:00:00 GMT-5")} FromTo="12-2 PM" />
             <Address Address={Addrs} Map={AddressMap} />
-            <div className="divider"><ArrowDownIcon /> Please RSVP <ArrowDownIcon /></div> 
+            <div className="divider font-extrabold"><ArrowDownIcon /> Please RSVP <ArrowDownIcon /></div> 
             <RsvpForm guestId={guestId ?? ""} phoneNumber={guestInfo.phoneNumber} rsvp={guestInfo.rsvp} parents={guestInfo.parents} contactUs={ContactUs}/>
             <EventInformation />
         </>
