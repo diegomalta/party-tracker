@@ -5,6 +5,7 @@ import PartyTrackerClient from "../../services/api/PartyTracker";
 
 interface RsvpFormProps {
   guestId: string,
+  name: string,
   phoneNumber: string | undefined,
   rsvp: string | undefined,
   parents: string | undefined
@@ -16,7 +17,7 @@ const formIds = {
   phoneNumber: "phoneNumber"
 }
 
-const RsvpForm = ({ guestId, phoneNumber: phoneNumberProp, rsvp: rsvpProp, parents: parentsProp, contactUs }: RsvpFormProps) => {
+const RsvpForm = ({ guestId, name, phoneNumber: phoneNumberProp, rsvp: rsvpProp, parents: parentsProp, contactUs }: RsvpFormProps) => {
 
   const [rsvp, setRsvp] = useState<string | undefined>(rsvpProp);
   const [phoneNumber, setPhoneNumber] = useState<string>(phoneNumberProp ?? "");
@@ -121,7 +122,7 @@ const RsvpForm = ({ guestId, phoneNumber: phoneNumberProp, rsvp: rsvpProp, paren
         setIsLoading(true);
         const request: IGuestInfo = {
           id: guestId,
-          name: "",
+          name: name,
           phoneNumber: phoneNumber,
           rsvp: rsvp,
           parents: parentsWelcome,

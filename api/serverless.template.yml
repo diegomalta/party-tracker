@@ -13,8 +13,9 @@ Resources:
       Runtime: "dotnet6"
       Handler: "PartyTracker.Api"
       CodeUri: ""
-      MemorySize: 256
+      MemorySize: 1536
       Timeout: 30
+      Tracing: Active
       Policies:
         - Statement:
           - Sid: DynamoAccessPolicy

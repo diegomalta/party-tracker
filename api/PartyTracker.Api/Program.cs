@@ -1,6 +1,7 @@
 using Amazon.DynamoDBv2;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using PartyTracker.Api.Middleware;
 using PartyTracker.Api.Repositories;
 using PartyTracker.Api.Services;
 using PartyTracker.Api.Settings;
@@ -41,6 +42,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors("default");
 app.UseAuthorization();
+app.UseMiddleware<LoggerMiddleware>();
 app.MapControllers();
 
 app.MapGet("/", () => "Welcome to running ASP.NET Core Minimal API on AWS Lambda");

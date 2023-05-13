@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PartyTracker.Api.Contracts.Request;
 using PartyTracker.Api.Mappers;
+using PartyTracker.Api.Middleware;
 using PartyTracker.Api.Services;
 
 namespace PartyTracker.Api.Controllers
@@ -11,10 +14,12 @@ namespace PartyTracker.Api.Controllers
     public class GuestController : ControllerBase
 	{
 		private readonly IGuestService _guestService;
+        private readonly ILogger _logger;
 
-		public GuestController(IGuestService guestService)
+		public GuestController(IGuestService guestService, ILogger<LoggerMiddleware> logger)
 		{
 			_guestService = guestService;
+            _logger = logger;
 		}
 
 		[HttpPost]
@@ -47,6 +52,8 @@ namespace PartyTracker.Api.Controllers
             {
                 return NotFound();
             }
+
+            _logger.LogInformation(JsonSerializer.Serialize(guestRequest));
 
             var guestToUpdate = guestRequest.ContractToGuestUpdate();
 
