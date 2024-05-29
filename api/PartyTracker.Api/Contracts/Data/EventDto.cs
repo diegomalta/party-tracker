@@ -16,6 +16,23 @@ namespace PartyTracker.Api.Contracts.Data
 
         [JsonPropertyName("welcomeMessage")]
         public string WelcomeMessage { get; set; } = default!;
+
+        [JsonPropertyName("addressMapUrl")]
+        public string AddressMapUrl { get; set;} = default!;
+
+        [JsonPropertyName("Address")]
+        public string Address { get; set; } = default!;
+
+        [JsonPropertyName("contactPhoneNumber")]
+        public string ContactPhoneNumber { get; set; } = default!;
+
+        [JsonPropertyName("eventDate")]
+        public DateTime EventDate { get; set; } = default!;
+
+        [JsonPropertyName("fromTo")]
+        public string FromTo { get; set; } = default!;
+
+
     }
 }
 

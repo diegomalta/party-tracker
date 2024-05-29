@@ -16,9 +16,9 @@ namespace PartyTracker.Api.Services
 
         public async Task<Event> CreateAsync(Event eventReq)
         {
-			var eventDto = eventReq.ToEventDto();
-			await _eventRepository.CreateAsync(eventDto);
-			return eventReq;
+					var eventDto = eventReq.ToEventDto();
+					await _eventRepository.CreateAsync(eventDto);
+					return eventReq;
         }
     }
 }

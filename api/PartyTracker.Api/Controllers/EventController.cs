@@ -22,7 +22,7 @@ namespace PartyTracker.Api.Controllers
 		{
 			var evenReq = createEvent.ContractToEvent();
 			var result = await _eventService.CreateAsync(evenReq);
-            return Ok(result.ToEventResponse());
+      return Ok(result.ToEventResponse());
 		}
 
 	}

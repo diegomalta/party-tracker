@@ -11,7 +11,12 @@ namespace PartyTracker.Api.Mappers
 			return new EventDto
 			{
 				Id = evnt.Id.ToString(),
-				WelcomeMessage = evnt.WelcomeMessage
+				WelcomeMessage = evnt.WelcomeMessage,
+				AddressMapUrl = evnt.AddressMapUrl.Value,
+				Address = evnt.Address.Value,
+				ContactPhoneNumber = evnt.ContactPhoneNumber.Value,
+				EventDate = evnt.EventDate,
+				FromTo = evnt.FromTo
 			};
 		}
 

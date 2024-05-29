@@ -1,9 +1,7 @@
 ﻿using System;
 using PartyTracker.Api.Domain;
 using PartyTracker.Api.Contracts.Request;
-using PartyTracker.Api.Contracts.Responses;
 using PartyTracker.Api.Domain.Common;
-using Amazon.DynamoDBv2.Model;
 
 namespace PartyTracker.Api.Mappers
 {
@@ -13,7 +11,12 @@ namespace PartyTracker.Api.Mappers
 		{
 			return new Event
 			{
-				WelcomeMessage = eventRequest.WelcomeMessage
+				WelcomeMessage = eventRequest.WelcomeMessage,
+				AddressMapUrl = AddressMapUrl.From(eventRequest.AddressMapUrl),
+				Address = Address.From(eventRequest.Address),
+				ContactPhoneNumber = PhoneNumber.From(eventRequest.ContactPhoneNumber),
+				EventDate = eventRequest.EventDate,
+				FromTo = eventRequest.FromTo
 			};
 		}
 

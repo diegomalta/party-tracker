@@ -10,11 +10,14 @@ public class Address : ValueOf<string, Address>
 
   protected override void Validate()
   {
-    var message = $"Max length of address is {maxLength} characters.";
-
-    throw new ValidationException(message, new[]
+    if (Value.Length > maxLength)
     {
-        new ValidationFailure(nameof(FullName), message)
-    });
+      var message = $"Max length of address is {maxLength} characters.";
+
+      throw new ValidationException(message, new[]
+      {
+          new ValidationFailure(nameof(FullName), message)
+      });
+    }    
   }
 }
