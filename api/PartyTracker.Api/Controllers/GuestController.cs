@@ -14,11 +14,13 @@ namespace PartyTracker.Api.Controllers
     public class GuestController : ControllerBase
 	{
 		private readonly IGuestService _guestService;
+        private readonly IEventService _eventService;
         private readonly ILogger _logger;
 
-		public GuestController(IGuestService guestService, ILogger<LoggerMiddleware> logger)
+		public GuestController(IGuestService guestService, IEventService eventService, ILogger<LoggerMiddleware> logger)
 		{
 			_guestService = guestService;
+            _eventService = eventService;
             _logger = logger;
 		}
 
@@ -40,7 +42,9 @@ namespace PartyTracker.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(guest.ToGuestResponse());
+            var evt = await _eventService.GetEventByIdAsync(guest.EventId.Value);
+
+            return Ok(guest.ToGuestResponse(evt));
         }
 
         [HttpPut("{id:guid}")]

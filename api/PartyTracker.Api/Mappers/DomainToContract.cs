@@ -20,7 +20,7 @@ namespace PartyTracker.Api.Mappers
             };
         }
 
-        public static GuestResponse ToGuestResponse(this Guest guestCreated)
+        public static GuestResponse ToGuestResponse(this Guest guestCreated, Event eventCreated = null)
         {
             return new GuestResponse
             {
@@ -30,7 +30,8 @@ namespace PartyTracker.Api.Mappers
                 PhoneNumber = guestCreated.PhoneNumber?.Value,
                 Rsvp = guestCreated.Rsvp?.Value,
                 Parents = guestCreated.Parents?.Value,
-                Message = guestCreated.Message
+                Message = guestCreated.Message,
+                Event = eventCreated == null ? null : eventCreated.ToEventResponse()
             };
         }
     }
