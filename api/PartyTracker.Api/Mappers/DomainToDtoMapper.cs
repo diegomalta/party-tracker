@@ -1,6 +1,7 @@
 ﻿using System;
 using PartyTracker.Api.Contracts.Data;
 using PartyTracker.Api.Domain;
+using PartyTracker.Api.Domain.Common;
 
 namespace PartyTracker.Api.Mappers
 {
@@ -25,7 +26,12 @@ namespace PartyTracker.Api.Mappers
 			return new Event
 			{
 				Id = Guid.Parse(evntDto.Id),
-				WelcomeMessage = evntDto.WelcomeMessage
+				WelcomeMessage = evntDto.WelcomeMessage,
+				AddressMapUrl = AddressMapUrl.From(evntDto.AddressMapUrl),
+				Address = Address.From(evntDto.Address),
+				ContactPhoneNumber = PhoneNumber.From(evntDto.ContactPhoneNumber),
+				EventDate = evntDto.EventDate,
+				FromTo = evntDto.FromTo
 			};
 		}
 

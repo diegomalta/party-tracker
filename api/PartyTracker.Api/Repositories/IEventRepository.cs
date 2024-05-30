@@ -5,5 +5,6 @@ namespace PartyTracker.Api.Repositories
     public interface IEventRepository
     {
         Task<EventDto> CreateAsync(EventDto customer);
+        Task<EventDto?> GetByIdAsync(Guid id);
     }
 }

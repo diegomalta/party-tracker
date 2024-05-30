@@ -1,5 +1,4 @@
-﻿using System;
-using PartyTracker.Api.Domain;
+﻿using PartyTracker.Api.Domain;
 using PartyTracker.Api.Mappers;
 using PartyTracker.Api.Repositories;
 
@@ -14,12 +13,18 @@ namespace PartyTracker.Api.Services
 			_eventRepository = eventRepository;
 		}
 
-        public async Task<Event> CreateAsync(Event eventReq)
-        {
-					var eventDto = eventReq.ToEventDto();
-					await _eventRepository.CreateAsync(eventDto);
-					return eventReq;
-        }
+    public async Task<Event> CreateAsync(Event eventReq)
+    {
+			var eventDto = eventReq.ToEventDto();
+			await _eventRepository.CreateAsync(eventDto);
+			return eventReq;
     }
+
+		public async Task<Event?> GetEventByIdAsync(Guid id)
+		{
+			var eventDto = await _eventRepository.GetByIdAsync(id);
+			return eventDto?.ToEvent();
+		}
+  }
 }
 

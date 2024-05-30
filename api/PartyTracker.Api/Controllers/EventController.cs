@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PartyTracker.Api.Contracts.Request;
 using PartyTracker.Api.Mappers;
 using PartyTracker.Api.Services;
@@ -24,6 +23,13 @@ namespace PartyTracker.Api.Controllers
 			var result = await _eventService.CreateAsync(evenReq);
       return Ok(result.ToEventResponse());
 		}
+
+		[HttpGet("{id:Guid}")]
+		public async Task<IActionResult> GetById([FromRoute] Guid id)
+			{
+				var result = await _eventService.GetEventByIdAsync(id);
+				return Ok(result.ToEventResponse());
+			}
 
 	}
 }

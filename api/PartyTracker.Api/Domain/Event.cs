@@ -9,7 +9,7 @@ namespace PartyTracker.Api.Domain
         public AddressMapUrl AddressMapUrl { get; set;} = default!;
         public Address Address { get; set; } = default!;
         public PhoneNumber ContactPhoneNumber { get; set; } = default!;
-        public DateTime EventDate { get; set; } = default!;
+        public DateTime EventDate { get; set; }
         public string FromTo { get; set; } = default!;
     }
 }

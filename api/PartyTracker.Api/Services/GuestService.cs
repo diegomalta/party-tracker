@@ -8,6 +8,7 @@ namespace PartyTracker.Api.Services
 	public class GuestService : IGuestService
 	{
         private readonly IGuestRepository _guestRepository;
+        private readonly IEventRepository _eventRepository;
 
 		public GuestService(IGuestRepository guestRepository)
 		{

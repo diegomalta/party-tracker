@@ -10,7 +10,13 @@ namespace PartyTracker.Api.Mappers
         {
             return new EventResponse
             {
-                Id = eventCreated.Id
+                Id = eventCreated.Id,
+                WelcomeMessage = eventCreated.WelcomeMessage,
+                AddressMapUrl = eventCreated.AddressMapUrl.Value,
+                Address = eventCreated.Address.Value,
+                ContactPhoneNumber = eventCreated.ContactPhoneNumber.Value,
+                EventDate = eventCreated.EventDate,
+                FromTo = eventCreated.FromTo
             };
         }
 

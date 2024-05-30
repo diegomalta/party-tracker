@@ -42,7 +42,7 @@ namespace PartyTracker.Api.Repositories
             return guest;
         }
 
-        private string GeneratePk(Guid productId) => $"GUEST#{productId.ToString()}";
+        private string GeneratePk(Guid id) => $"GUEST#{id}";
 
         public async Task<GuestDto?> GetByIdAsync(Guid id)
         {

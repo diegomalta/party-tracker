@@ -42,6 +42,30 @@ namespace PartyTracker.Api.Repositories
             await _dynamoDb.PutItemAsync(createItemRequest);
             return evtDto;
         }
+
+        private string GeneratePk(Guid id) => $"EVENT#{id}";
+
+        public async Task<EventDto?> GetByIdAsync(Guid id)
+        {
+            var request = new GetItemRequest
+            {
+                TableName = _databaseSettings.Value.TableName,
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    { "PK", new AttributeValue { S = GeneratePk(id) } },
+                    { "SK", new AttributeValue { S = GeneratePk(id) } }
+                }
+            };
+
+            var response = await _dynamoDb.GetItemAsync(request);
+            if (response.Item.Count == 0)
+            {
+                return null;
+            }
+
+            var itemAsDocument = Document.FromAttributeMap(response.Item);
+            return JsonSerializer.Deserialize<EventDto>(itemAsDocument.ToJson());
+        }
     }
 }
 
