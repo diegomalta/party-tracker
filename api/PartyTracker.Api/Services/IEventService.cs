@@ -1,10 +1,8 @@
 ﻿using PartyTracker.Api.Domain;
 
-namespace PartyTracker.Api.Services
+namespace PartyTracker.Api.Services;
+public interface IEventService
 {
-    public interface IEventService
-    {
-        Task<Event> CreateAsync(Event eventReq);
-        Task<Event> GetEventByIdAsync(Guid id);
-    }
+    Task<Event> CreateAsync(Event eventReq);
+    Task<Event> GetEventByIdAsync(Guid id);
 }

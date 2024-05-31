@@ -3,34 +3,32 @@ using PartyTracker.Api.Contracts.Request;
 using PartyTracker.Api.Mappers;
 using PartyTracker.Api.Services;
 
-namespace PartyTracker.Api.Controllers
+namespace PartyTracker.Api.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class EventController : ControllerBase
 {
-	[ApiController]
-	[Route("[controller]")]
-	public class EventController : ControllerBase
-	{
-		private readonly IEventService _eventService;
+    private readonly IEventService _eventService;
 
-		public EventController(IEventService eventService)
-		{
-			_eventService = eventService;
-		}
+    public EventController(IEventService eventService)
+    {
+        _eventService = eventService;
+    }
 
-		[HttpPost]
-		public async Task<IActionResult> Create([FromBody] EventRequest createEvent)
-		{
-			var evenReq = createEvent.ContractToEvent();
-			var result = await _eventService.CreateAsync(evenReq);
-      return Ok(result.ToEventResponse());
-		}
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] EventRequest createEvent)
+    {
+        var evenReq = createEvent.ContractToEvent();
+        var result = await _eventService.CreateAsync(evenReq);
+        return Ok(result.ToEventResponse());
+    }
 
-		[HttpGet("{id:Guid}")]
-		public async Task<IActionResult> GetById([FromRoute] Guid id)
-			{
-				var result = await _eventService.GetEventByIdAsync(id);
-				return Ok(result.ToEventResponse());
-			}
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    {
+        var result = await _eventService.GetEventByIdAsync(id);
+        return Ok(result.ToEventResponse());
+    }
 
-	}
 }
-

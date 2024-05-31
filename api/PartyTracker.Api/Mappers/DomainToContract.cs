@@ -1,11 +1,10 @@
-﻿using System;
-using PartyTracker.Api.Contracts.Responses;
+﻿using PartyTracker.Api.Contracts.Responses;
 using PartyTracker.Api.Domain;
 
 namespace PartyTracker.Api.Mappers
 {
-	public static class DomainToContract
-	{
+    public static class DomainToContract
+    {
         public static EventResponse ToEventResponse(this Event eventCreated)
         {
             return new EventResponse
@@ -36,4 +35,3 @@ namespace PartyTracker.Api.Mappers
         }
     }
 }
-

@@ -1,11 +1,7 @@
-﻿using System;
-namespace PartyTracker.Api.Settings
+﻿namespace PartyTracker.Api.Settings;
+public class DatabaseSettings
 {
-	public class DatabaseSettings
-	{
-        public const string KeyName = "Database";
+    public const string KeyName = "Database";
 
-        public string TableName { get; set; } = default!;
-    }
+    public string TableName { get; set; } = default!;
 }
-

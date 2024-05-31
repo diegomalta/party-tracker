@@ -1,13 +1,9 @@
-﻿using System;
-using PartyTracker.Api.Contracts.Data;
+﻿using PartyTracker.Api.Contracts.Data;
 
-namespace PartyTracker.Api.Repositories
+namespace PartyTracker.Api.Repositories;
+public interface IGuestRepository
 {
-	public interface IGuestRepository
-	{
-        Task<GuestDto> CreateAsync(GuestDto guest);
-        Task<GuestDto?> GetByIdAsync(Guid id);
-        Task<GuestDto> UpdateAsync(GuestDto guest);
-    }
+    Task<GuestDto> CreateAsync(GuestDto guest);
+    Task<GuestDto?> GetByIdAsync(Guid id);
+    Task<GuestDto> UpdateAsync(GuestDto guest);
 }
-

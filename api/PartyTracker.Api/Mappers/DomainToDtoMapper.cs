@@ -21,20 +21,6 @@ namespace PartyTracker.Api.Mappers
 			};
 		}
 
-		public static Event ToEvent(this EventDto evntDto)
-		{
-			return new Event
-			{
-				Id = Guid.Parse(evntDto.Id),
-				WelcomeMessage = evntDto.WelcomeMessage,
-				AddressMapUrl = AddressMapUrl.From(evntDto.AddressMapUrl),
-				Address = Address.From(evntDto.Address),
-				ContactPhoneNumber = PhoneNumber.From(evntDto.ContactPhoneNumber),
-				EventDate = evntDto.EventDate,
-				FromTo = evntDto.FromTo
-			};
-		}
-
 		public static GuestDto ToGuestDto(this Guest guest)
 		{
 			return new GuestDto

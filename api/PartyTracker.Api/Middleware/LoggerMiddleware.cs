@@ -1,34 +1,43 @@
-﻿using System;
-namespace PartyTracker.Api.Middleware
+﻿using System.Text.Json;
+
+namespace PartyTracker.Api.Middleware;
+
+public class LoggerMiddleware
 {
-	public class LoggerMiddleware
-	{
-        private readonly RequestDelegate _request;
-        private readonly ILogger _logger;
+    private readonly RequestDelegate _request;
+    private readonly ILogger _logger;
 
-        public LoggerMiddleware(RequestDelegate request, ILogger<LoggerMiddleware> logger)
+    public LoggerMiddleware(RequestDelegate request, ILogger<LoggerMiddleware> logger)
+    {
+        _request = request;
+        _logger = logger;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
         {
-            _request = request;
-            _logger = logger;
+            await _request(context);
         }
-
-        public async Task InvokeAsync(HttpContext context)
+        catch (Exception ex)
         {
-            try
-            {
-                await _request(context);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                context.Response.StatusCode = 500;
+            _logger.LogError(
+                JsonSerializer.Serialize(
+                    new
+                    {
+                        message = ex.Message,
+                        stackTrace = ex.StackTrace,
+                        innerException = ex.InnerException
+                    }
+                )
+            );
+            context.Response.StatusCode = 500;
 
-                var error = new
-                {
-                    Message = ex.Message
-                };
-                await context.Response.WriteAsJsonAsync(error);
-            }
+            var error = new
+            {
+                ex.Message
+            };
+            await context.Response.WriteAsJsonAsync(error);
         }
     }
 }

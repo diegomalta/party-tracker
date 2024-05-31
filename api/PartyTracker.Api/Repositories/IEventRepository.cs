@@ -1,10 +1,8 @@
 ﻿using PartyTracker.Api.Contracts.Data;
 
-namespace PartyTracker.Api.Repositories
+namespace PartyTracker.Api.Repositories;
+public interface IEventRepository
 {
-    public interface IEventRepository
-    {
-        Task<EventDto> CreateAsync(EventDto customer);
-        Task<EventDto?> GetByIdAsync(Guid id);
-    }
+    Task<EventDto> CreateAsync(EventDto customer);
+    Task<EventDto?> GetByIdAsync(Guid id);
 }

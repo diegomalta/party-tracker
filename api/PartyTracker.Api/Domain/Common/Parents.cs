@@ -4,27 +4,24 @@ using FluentValidation;
 using FluentValidation.Results;
 using ValueOf;
 
-namespace PartyTracker.Api.Domain.Common
+namespace PartyTracker.Api.Domain.Common;
+public class Parents : ValueOf<string, Parents>
 {
-	public class Parents : ValueOf<string, Parents>
+    private static readonly Regex parentsRegex =
+        new("^[a-z ,.'-]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    protected override void Validate()
     {
-        private static readonly Regex parentsRegex =
-            new("^[a-z ,.'-]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        if (Value is null)
+            return;
 
-        protected override void Validate()
+        if (!parentsRegex.IsMatch(Value))
         {
-            if (Value is null)
-                return;
-
-            if (!parentsRegex.IsMatch(Value))
+            var message = $"{Value} is not valid";
+            throw new ValidationException(message, new[]
             {
-                var message = $"{Value} is not valid";
-                throw new ValidationException(message, new[]
-                {
                     new ValidationFailure(nameof(Parents), message)
                 });
-            }
         }
     }
 }
-
